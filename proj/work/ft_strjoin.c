@@ -1,5 +1,6 @@
-#include <stdio.h>
-#include <string.h>
+
+#include "work.h"
+
 #include <stdlib.h>
 
 size_t	ft_strlen(const char *s)
@@ -44,22 +45,4 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	ft_strlcpy(j, s1, s1_len + 1);
 	ft_strlcpy(j + s1_len, s2, s2_len + 1);
 	return (j);
-}
-
-char	*ft_concatenate(char *s)
-{
-	static char *stk = "";
-
-	stk = ft_strjoin(stk, s);
-	if (stk)
-		return (stk);
-	return (NULL);
-}
-
-int	main(void)
-{
-	printf("%s\n", ft_concatenate("Hi,"));
-	printf("%s\n", ft_concatenate(" I'm"));
-	printf("%s\n", ft_concatenate(" Keito"));
-	printf("%s\n", ft_concatenate("."));
 }

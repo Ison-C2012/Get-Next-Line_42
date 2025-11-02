@@ -20,7 +20,7 @@ int	main(int ac, char **av)
 	{
 		s = get_next_line(fd);
 		if (s == NULL)
-			return (3) ;
+			return (3);
 		printf("%s", s);
 		free(s);
 	}

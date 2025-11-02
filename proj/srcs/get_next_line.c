@@ -6,7 +6,7 @@
 /*   By: keitotak <keitotak@student.42tokyo.jp      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 21:39:04 by keitotak          #+#    #+#             */
-/*   Updated: 2025/11/02 16:54:09 by keitotak         ###   ########.fr       */
+/*   Updated: 2025/11/02 18:42:19 by keitotak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,9 @@ char	*get_one_line(char *stk, char *buf, size_t len)
 	return (line);
 }
 
-char	*init_stock(char *stk)
-{
-	
-}
-
 char	*get_next_line(int fd)
 {
-	static char	*stock;
+	static char	*stock = malloc(1);
 	int		read_count;
 	char	buf[BUFFER_SIZE];
 	char	*ptr_nl;
