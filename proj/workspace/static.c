@@ -5,7 +5,6 @@ You need to initialize it just one time as though the initialization is not simp
 
  */
 
-
 char	*ft_concatenate(char *s)
 {
 	static char	*d = "";
@@ -25,4 +24,3 @@ int	main(void)
 	printf("%s\n", ft_concatenate(" Keito"));
 	printf("%s\n", ft_concatenate("."));
 }
-

@@ -6,7 +6,7 @@
 /*   By: keitotak <keitotak@student.42tokyo.jp      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 21:39:04 by keitotak          #+#    #+#             */
-/*   Updated: 2025/11/02 18:42:19 by keitotak         ###   ########.fr       */
+/*   Updated: 2025/11/03 14:55:46 by keitotak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,54 +26,65 @@ void	*ft_memchr(const void *s, int c, size_t n)
 	return (NULL);
 }
 
-char	*get_one_line(char *stk, char *buf, size_t len)
+char	*get_line_to_eof(char *stk)
 {
 	char	*line;
-	char	*tmp;
 
-	tmp = ft_substr(buf, 0, len + 1);
-	if (tmp == NULL)
+	line = ft_substr(stk, 0, SIZE_MAX);
+	free(stk);
+	stk = malloc(1);
+	if (stk == NULL)
 		return (NULL);
-	line = ft_strjoin(stk, tmp);
-	free(tmp);
+	ft_memset(stk, 0, 1);
+	return (line);
+}
+
+char	*get_line_to_nl(char *stk, char *buf)
+{
+	char	*line_to_add;
+	char	*line;
+
+	line_to_add = ft_substr(buf, 0, (ptr - buf) + 1);
+	if (line_to_add == NULL)
+		return (NULL);
+	line = ft_strjoin(stk, line_to_add);
+	free(line_to_add);
+	if (*stk)
+		free(stk);
+	stk = ft_substr(buf, (ptr - buf) + 1, BUFFER_SIZE);
+	if (stk == NULL)
+		return (NULL);
+	return (line);
+	}
 	return (line);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*stock = malloc(1);
-	int		read_count;
-	char	buf[BUFFER_SIZE];
-	char	*ptr_nl;
-	char	*tmp;
-	char	*next_line;
+	static char	*stock = "";
+	char		*buffer;
+	int			read_count;
+	char		*next_line;
+	char		*ptr;
 
-	stock = (char *)malloc(1 * sizeof(char));
-	if (stock == NULL)
+	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	if (buffer == NULL)
 		return (NULL);
-	stock[0] = '\0';
 	read_count = 1;
 	while (read_count)
 	{
-		read_count = read(fd, buf, BUFFER_SIZE);
+		read_count = read(fd, buffer, BUFFER_SIZE);
 		if (read_count == -1)
 			return (NULL);
-		ptr_nl = ft_memchr(buf, '\n', BUFFER_SIZE);
-		if (ptr_nl)
-		{
-			next_line = get_one_line(stock, buf, ptr_nl - buf);
-			tmp = stock;
-			stock = ptr_nl + 1;
-			tmp[ptr_nl - buf] = '\0';
-			free(tmp);
+		ptr = ft_memchr(buf, '\n', BUFFER_SIZE);
+		if (ptr)
+			return (get_line_to_nl(stock, buffer));
+		if (*next_line)
 			return (next_line);
-		}
-		stock = ft_strjoin(stock, buf);
-		if (stock == NULL)
-			return (NULL);
-		ft_memset(buf, 0, BUFFER_SIZE);
+		ft_memset(buffer, 0, BUFFER_SIZE + 1);
 	}
-	if (*buf)
-		return (ft_strjoin(stock, buf));
-	return (NULL);
+	if (*stock == '\0')
+		return (NULL);
+	free(buffer);
+	return (get_line_to_eof(stock));
 }
