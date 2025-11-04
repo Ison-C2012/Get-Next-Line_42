@@ -46,3 +46,27 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	ft_strlcpy(j + s1_len, s2, s2_len + 1);
 	return (j);
 }
+
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	char	*sb;
+	size_t	s_len;
+	size_t	sb_len;
+
+	if (len == 0)
+		return (NULL);
+	s_len = 0;
+	while (s[s_len++])
+		;
+	if (start > s_len)
+		return (NULL);
+	if (start + len > s_len)
+		sb_len = s_len - start;
+	else
+		sb_len = len;
+	sb = (char *)malloc((sb_len + 1) * sizeof(char));
+	if (sb == NULL)
+		return (NULL);
+	ft_strlcpy(sb, s + start, sb_len + 1);
+	return (sb);
+}

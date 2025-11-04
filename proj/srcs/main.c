@@ -19,8 +19,6 @@ int	main(int ac, char **av)
 	while (s)
 	{
 		s = get_next_line(fd);
-		if (s == NULL)
-			break ;
 		printf("%s", s);
 		free(s);
 	}

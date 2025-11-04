@@ -1,10 +1,6 @@
 
 #include "work.h"
 
-#include <unistd.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-
 #define BUFSIZE 42
 
 char	*ft_read(int fd)
