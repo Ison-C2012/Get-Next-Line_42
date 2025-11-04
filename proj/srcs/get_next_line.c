@@ -6,78 +6,98 @@
 /*   By: keitotak <keitotak@student.42tokyo.jp      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 21:39:04 by keitotak          #+#    #+#             */
-/*   Updated: 2025/11/04 18:11:16 by keitotak         ###   ########.fr       */
+/*   Updated: 2025/11/05 01:56:56 by keitotak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*get_next_line(int fd)
+t_nl	*ft_get_nl(char *s, t_nl *nl)
 {
-	static char	*stk = NULL;
-	char		*buf;
-	int			rc;
-	char		*ptr;
-	char		*line_to_res;
-	char		*line_to_cat;
-	char		*tmp;
-	
-	buf = malloc((BUFFER_SIZE + 1) * sizeof(char));
+	if (nl == NULL)
+	{
+		nl = (t_nl *)malloc(1 * sizeof(t_nl));
+		if (nl == NULL)
+			return (NULL);
+	}
+	if (s == NULL)
+	{
+		nl->ptr = NULL;
+		nl->len_to = 0;
+		nl->len_from = 0;
+		return (nl);
+	}
+	nl->ptr = ft_strchr(s, '\n');
+	nl->len_to = nl->ptr - s + 1;
+	nl->len_from = ft_strlen(s) - nl->len_to;
+	return (nl);
+}
+
+char	*ft_read(int fd)
+{
+	char	*buf;
+
+	buf = (char *)malloc(BUFFER_SIZE + 1);
 	if (buf == NULL)
 		return (NULL);
-	rc = 1;
-	while (rc)
+	if (read(fd, buf, BUFFER_SIZE) <= 0)
 	{
-		rc = read(fd, buf, BUFFER_SIZE);
-		if (rc == -1)
-		{
-			free(buf);
-			return (NULL);
-		}
-		buf[rc] = '\0';
-		line_to_cat = NULL;
-		line_to_res = NULL;
-		if (ft_strchr(stk, '\n'))
-		{
-			ptr = ft_strchr(stk, '\n');
-			line_to_res = ft_substr(stk, 0, ptr - stk + 1);
-			tmp = ft_substr(ptr, 1, BUFFER_SIZE);
-			if (*stk)
-				free(stk);
-			stk = tmp;
-		}
-		else if (ft_strchr(buf, '\n'))
-		{
-			ptr = ft_strchr(buf, '\n');
-			line_to_cat = ft_substr(buf, 0, ptr - buf + 1);
-			if (line_to_cat == NULL)
-				return (NULL);
-			line_to_res = ft_strjoin(stk, line_to_cat);
-			free(line_to_cat);
-			tmp = ft_substr(ptr, 1, BUFFER_SIZE);
-			if (*stk)	//if "" is allocated memory, they leaks.
-				free(stk);
-			stk = tmp;
-			return (line_to_res);
-		}
-		else
-		{
-			tmp = ft_strjoin(stk, buf);
-			if (*stk)	//if "" is allocated memory, they leaks.
-				free(stk);
-			stk = tmp;
-		}
-		if (stk == NULL)
-		{
-			free(buf);
-			return (NULL);
-		}
-		if (line_to_res)
-		{
-			free(buf);
-			return (line_to_res);
-		}
+		free(buf);
+		return (NULL);
 	}
-	free(buf);
-	return (stk);
+	buf[BUFFER_SIZE] = '\0';
+	return (buf);
+}
+
+char	*ft_save_add(char *save, char *add)
+{
+	char	*ptr;
+
+	ptr = save;
+	if (save == NULL)
+		save = ft_strjoin("", add);
+	else
+		save = ft_strjoin(ptr, add);
+	if (save == NULL)
+		return (NULL);
+	free(ptr);
+	free(add);
+	return (save);
+}
+
+char	*ft_save_trans(char *save, t_nl *nl)
+{
+	char	*ptr;
+
+	ptr = save;
+	save = ft_substr(nl->ptr, 1, nl->len_from + 1);
+	if (save == NULL)
+		return (NULL);
+	free(ptr);
+	return (save);
+}
+
+char	*get_next_line(int fd)
+{
+	static char	*save = NULL;
+	t_nl		*nl;
+	char		*buf;
+	char		*line;
+
+	nl = NULL;
+	nl = ft_get_nl(save, nl);
+	while (nl->ptr == NULL)
+	{
+		buf = ft_read(fd);
+		if (buf == NULL)
+			return (ft_free_nl(nl));
+		save = ft_save_add(save, buf);
+		if (save == NULL)
+			return (ft_free_nl(nl));
+		nl = ft_get_nl(save, nl);
+	}
+	line = ft_substr(save, 0, nl->len_to);
+	save = ft_save_trans(save, nl);
+	free(nl);
+	return (line);
 }

@@ -1,22 +1,5 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: keitotak <keitotak@student.42tokyo.jp      +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/01 12:30:45 by keitotak          #+#    #+#             */
-/*   Updated: 2025/11/05 02:04:36 by keitotak         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
-#include "get_next_line.h"
-
-char	*ft_free_nl(t_nl *nl)
-{
-	free(nl);
-	return (NULL);
-}
+#include "ft.h"
 
 char	*ft_strchr(const char *s, int c)
 {
