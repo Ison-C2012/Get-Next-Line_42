@@ -6,11 +6,12 @@
 /*   By: keitotak <keitotak@student.42tokyo.jp      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 12:30:45 by keitotak          #+#    #+#             */
-/*   Updated: 2025/11/03 21:07:27 by keitotak         ###   ########.fr       */
+/*   Updated: 2025/11/04 18:08:15 by keitotak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <string.h>
 
 void	*ft_memset(void *s, int c, size_t n)
 {
@@ -22,17 +23,16 @@ void	*ft_memset(void *s, int c, size_t n)
 	return (s);
 }
 
-void	*ft_memchr(const void *s, int c, size_t n)
+char	*ft_strchr(const char *s, int c)
 {
-	unsigned char	*ptr;
-
-	ptr = (unsigned char *)s;
-	while (n--)
+	while (*s)
 	{
-		if (*ptr == (unsigned char)c)
-			return (ptr);
-		ptr++;
+		if (*s == (char)c)
+			return ((char *)s);
+		s++;
 	}
+	if ((char)c == '\0')
+		return ((char *)s);
 	return (NULL);
 }
 
@@ -43,6 +43,8 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	size_t	s2_len;
 	size_t	i;
 
+	if (s1 == NULL)
+		return (strdup(s2));
 	s1_len = 0;
 	while (s1[s1_len])
 		s1_len++;

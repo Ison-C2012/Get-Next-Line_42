@@ -19,8 +19,13 @@ int	main(int ac, char **av)
 	while (s)
 	{
 		s = get_next_line(fd);
-		printf("%s", s);
-		free(s);
+		if (s)
+		{
+			printf("%s", s);
+			if (*s == '\0')
+				break ;
+			free(s);
+		}
 	}
 	close(fd);
 	return 0;

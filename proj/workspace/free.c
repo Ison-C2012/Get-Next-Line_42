@@ -4,13 +4,14 @@
 int	main(void)
 {
 	char *s;
+	char *tmp;
 
 	s = strdup("42 tokyo.");
-	if (s)
-		free(s);
+	tmp = s;
 	s = strdup("42 paris.");
-	if (s)
-		printf("%s\n", s);
+	printf("%s\n", tmp);
+	printf("%s\n", s);
+	free(tmp);
 	free(s);
 	return 0;
 }

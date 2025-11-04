@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   gnl_all_in_one.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: keitotak <keitotak@student.42tokyo.jp      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 21:39:04 by keitotak          #+#    #+#             */
-/*   Updated: 2025/11/04 18:11:16 by keitotak         ###   ########.fr       */
+/*   Updated: 2025/11/04 17:22:11 by keitotak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*get_next_line(int fd)
 {
-	static char	*stk = NULL;
+	static char	*stk = "";
 	char		*buf;
 	int			rc;
 	char		*ptr;
