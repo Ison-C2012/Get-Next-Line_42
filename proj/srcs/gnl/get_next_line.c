@@ -6,7 +6,7 @@
 /*   By: keitotak <keitotak@student.42tokyo.jp      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 21:39:04 by keitotak          #+#    #+#             */
-/*   Updated: 2025/11/05 16:53:51 by keitotak         ###   ########.fr       */
+/*   Updated: 2025/11/05 23:11:00 by keitotak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,28 +29,6 @@ t_nl	*ft_get_nl(char *s, t_nl *nl)
 	nl->ptr = ft_strchr(s, '\n');
 	nl->len = nl->ptr - s + 1;
 	return (nl);
-}
-
-char	*ft_read(int fd)
-{
-	char	*buf;
-	int		rc;
-
-	buf = (char *)malloc(BUFFER_SIZE + 1);
-	if (buf == NULL)
-		return (NULL);
-	rc = read(fd, buf, BUFFER_SIZE);
-	if (rc == -1)
-	{
-		free(buf);
-		return (NULL);
-	}
-	if (rc == EOF)
-	{
-
-	}
-	buf[rc] = '\0';
-	return (buf);
 }
 
 char	*ft_save_add(char *save, char *add)
@@ -94,14 +72,23 @@ char	*ft_save_trans(char *save, char *start)
 	return (save);
 }
 
-char	*ft_read_to_save(char *save)
+char	*ft_read(int fd)
 {
-	while (ft_strchr(save, '\n') == NULL)
-	{
-		
-	}
-}
+	char	*buf;
+	int		rc;
 
+	buf = (char *)malloc(BUFFER_SIZE + 1);
+	if (buf == NULL)
+		return (NULL);
+	rc = read(fd, buf, BUFFER_SIZE);
+	if (rc == -1)
+	{
+		free(buf);
+		return (NULL);
+	}
+	buf[rc] = '\0';
+	return (buf);
+}
 
 char	*get_next_line(int fd)
 {

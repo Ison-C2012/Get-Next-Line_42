@@ -1,6 +1,11 @@
 
 #include "work.h"
 
+void	ft_free(char *s)
+{
+	free(s);
+}
+
 int	main(void)
 {
 	char *s;
@@ -13,6 +18,9 @@ int	main(void)
 	printf("%s\n", s);
 	free(tmp);
 	free(s);
+
+	s = strdup("why non-freeable?");
+	ft_free(s);
 	return 0;
 }
 
