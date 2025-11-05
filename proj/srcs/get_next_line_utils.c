@@ -6,16 +6,16 @@
 /*   By: keitotak <keitotak@student.42tokyo.jp      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 12:30:45 by keitotak          #+#    #+#             */
-/*   Updated: 2025/11/05 02:04:36 by keitotak         ###   ########.fr       */
+/*   Updated: 2025/11/05 16:21:58 by keitotak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_free_nl(t_nl *nl)
+char	*ft_free(char *s, void *ptr)
 {
-	free(nl);
-	return (NULL);
+	free(ptr);
+	return (s);
 }
 
 char	*ft_strchr(const char *s, int c)
@@ -29,16 +29,6 @@ char	*ft_strchr(const char *s, int c)
 	if ((char)c == '\0')
 		return ((char *)s);
 	return (NULL);
-}
-
-size_t	ft_strlen(const char *s)
-{
-	size_t	len;
-
-	len = 0;
-	while (s[len])
-		len++;
-	return (len);
 }
 
 char	*ft_strjoin(char const *s1, char const *s2)
@@ -73,8 +63,6 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	size_t	s_len;
 	size_t	i;
 
-	if (len == 0)
-		return (NULL);
 	s_len = 0;
 	while (s[s_len])
 		s_len++;
