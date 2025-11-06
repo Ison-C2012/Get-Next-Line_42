@@ -6,7 +6,7 @@
 /*   By: keitotak <keitotak@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 01:01:07 by keitotak          #+#    #+#             */
-/*   Updated: 2025/11/06 13:24:30 by keitotak         ###   ########.fr       */
+/*   Updated: 2025/11/06 15:08:55 by keitotak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ char	*get_next_line(int fd)
 	size_t		len;
 	char		*line;
 
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
 	buf = NULL;
 	while (does_include_nl(save) == 0)
 	{
