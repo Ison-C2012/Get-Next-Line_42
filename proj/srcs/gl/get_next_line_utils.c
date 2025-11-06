@@ -6,19 +6,20 @@
 /*   By: keitotak <keitotak@student.42tokyo.jp      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 12:30:45 by keitotak          #+#    #+#             */
-/*   Updated: 2025/11/06 02:29:20 by keitotak         ###   ########.fr       */
+/*   Updated: 2025/11/06 13:21:19 by keitotak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ret_cpy_free(char **to_ret, char *to_free)
+char	*ret_cpy_free(char **to_ret, char **to_free)
 {
 	char	*line;
 
 	line = *to_ret;
 	*to_ret = NULL;
-	free(to_free);
+	free(*to_free);
+	*to_free = NULL;
 	return (line);
 }
 

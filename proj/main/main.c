@@ -1,5 +1,4 @@
 
-//#include "get_next_next_line.h"
 #include "get_next_line.h"
 
 #include <sys/stat.h>

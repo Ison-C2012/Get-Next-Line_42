@@ -6,7 +6,7 @@
 /*   By: keitotak <keitotak@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/06 01:01:07 by keitotak          #+#    #+#             */
-/*   Updated: 2025/11/06 02:29:12 by keitotak         ###   ########.fr       */
+/*   Updated: 2025/11/06 13:24:30 by keitotak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char	*add_to_save(char *save, char *add)
 	}
 	ptr = save;
 	save = ft_strjoin(ptr, add);
-	return (ret_cpy_free(&save, ptr));
+	return (ret_cpy_free(&save, &ptr));
 }
 
 char	*trans_save(char *save, char *start)
@@ -75,7 +75,7 @@ char	*trans_save(char *save, char *start)
 		save = NULL;
 	else
 		save = ft_substr(start, 0, len);
-	return (ret_cpy_free(&save, ptr));
+	return (ret_cpy_free(&save, &ptr));
 }
 
 char	*get_next_line(int fd)
@@ -90,17 +90,17 @@ char	*get_next_line(int fd)
 	{
 		buf = read_to_buf(buf, fd);
 		if (buf == NULL)
-			return (NULL);
+			return (ret_cpy_free(&buf, &save));
 		else if (buf[0] == '\0')
-			return (ret_cpy_free(&save, buf));
+			return (ret_cpy_free(&save, &buf));
 		save = add_to_save(save, buf);
 		if (save == NULL)
-			return (ret_cpy_free(&save, buf));
+			return (ret_cpy_free(&save, &buf));
 	}
 	len = does_include_nl(save);
 	line = ft_substr(save, 0, len);
 	save = trans_save(save, save + len);
-	return (ret_cpy_free(&line, buf));
+	return (ret_cpy_free(&line, &buf));
 }
 
 //		if (rc < BUFFER_SIZE)
