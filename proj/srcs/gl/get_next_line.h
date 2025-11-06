@@ -6,7 +6,7 @@
 /*   By: keitotak <keitotak@student.42tokyo.jp      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 21:39:56 by keitotak          #+#    #+#             */
-/*   Updated: 2025/11/06 13:21:37 by keitotak         ###   ########.fr       */
+/*   Updated: 2025/11/06 13:49:07 by keitotak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,10 @@
 # include <stdlib.h>
 # include <stddef.h>
 # include <stdio.h>
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 11
+# endif
 
 char	*get_next_line(int fd);
 char	*ret_cpy_free(char **to_ret, char **to_free);
