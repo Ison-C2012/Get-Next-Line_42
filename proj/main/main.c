@@ -20,7 +20,6 @@ int	main(int ac, char **av)
 	cnt = 0;
 	while (s)
 	{
-//		s = get_next_next_line(fd);
 		s = get_next_line(fd);
 		printf("%s", s);
 		free(s);
