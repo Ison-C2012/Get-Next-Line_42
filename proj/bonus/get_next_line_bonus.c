@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
-size_t	does_include_nl(t_gnl *s, int fd)
+size_t	does_include_nl(char *s)
 {
 	size_t	len;
 
@@ -62,48 +62,47 @@ char	*add_to_save(char *save, char *add)
 	return (ret_cpy_free(&save, &ptr));
 }
 
-char	*trans_save(char *save)
+char	*trans_save(char *save, char *start)
 {
 	char	*ptr;
 	size_t	len;
 
-	ptr = save;
-	while (*save && *save != '\n')
-		*save++;
 	len = 0;
-	while (save[len])
+	while (start[len])
 		len++;
+	ptr = save;
 	if (len == 0)
 		save = NULL;
 	else
-		save = ft_substr(save, 0, len);
+		save = ft_substr(start, 0, len);
 	return (ret_cpy_free(&save, &ptr));
 }
 
 char	*get_next_line(int fd)
 {
 	static t_gnl	*stash = NULL;
-	char			*save;
+	t_gnl			*node;
 	char			*buf;
 	char			*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	buf = NULL;
-	save = get_save_from_stash(stash, fd);
-	while (does_include_nl(save) == 0)
+	print
+	node = get_save_from_stash(&stash, fd);
+	while (does_include_nl(node->save) == 0)
 	{
 		buf = read_to_buf(buf, fd);
 		if (buf == NULL)
-			return (ret_cpy_free(&buf, &save));
+			return (ret_cpy_free(&buf, &node->save));
 		else if (buf[0] == '\0')
-			return (ret_cpy_free(&save, &buf));
-		save = add_to_save(save, buf);
-		if (save == NULL)
-			return (ret_cpy_free(&save, &buf));
+			return (ret_cpy_free(&node->save, &buf));
+		node->save = add_to_save(node->save, buf);
+		if (node->save == NULL)
+			return (ret_cpy_free(&node->save, &buf));
 	}
-	line = ft_substr(save, 0, does_include_nl(save));
-	save = trans_save(save);
+	line = ft_substr(node->save, 0, does_include_nl(node->save));
+	node->save = trans_save(node->save, node->save + does_include_nl(node->save));
 	return (ret_cpy_free(&line, &buf));
 }
 

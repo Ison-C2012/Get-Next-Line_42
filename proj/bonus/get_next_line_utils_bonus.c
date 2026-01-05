@@ -6,27 +6,30 @@
 /*   By: keitotak <keitotak@student.42tokyo.jp      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 12:30:45 by keitotak          #+#    #+#             */
-/*   Updated: 2026/01/04 17:43:39 by keitotak         ###   ########.fr       */
+/*   Updated: 2026/01/05 19:36:08 by keitotak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
-char	*get_save_from_stash(t_gnl *stash, int fd)
+t_gnl	*get_save_from_stash(t_gnl **stash, int fd)
 {
-	while (stash != NULL)
+	t_gnl	*node;
+
+	node = *stash;
+	while (node != NULL)
 	{
-		if (stash->fd == fd)
-			return (stash->save);
-		stash = stash->next;
+		if (node->fd == fd)
+			return (node);
+		node = node->next;
 	}
-	stash = (t_gnl *)malloc(sizeof(t_gnl));
-	if (stash == NULL)
+	node = (t_gnl *)malloc(sizeof(t_gnl));
+	if (node == NULL)
 		return (NULL);
-	stash->save = NULL;
-	stash->fd = fd;
-	stash->next = NULL;
-	return (stash->save);
+	node->save = NULL;
+	node->fd = fd;
+	node->next = NULL;
+	return (node);
 }
 
 char	*ret_cpy_free(char **to_ret, char **to_free)
