@@ -1,34 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: keitotak <keitotak@student.42tokyo.jp      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 12:30:45 by keitotak          #+#    #+#             */
-/*   Updated: 2025/11/05 16:21:58 by keitotak         ###   ########.fr       */
+/*   Updated: 2026/01/04 17:43:39 by keitotak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_free(char *s, void *ptr)
+char	*get_save_from_stash(t_gnl *stash, int fd)
 {
-	free(ptr);
-	return (s);
+	while (stash != NULL)
+	{
+		if (stash->fd == fd)
+			return (stash->save);
+		stash = stash->next;
+	}
+	stash = (t_gnl *)malloc(sizeof(t_gnl));
+	if (stash == NULL)
+		return (NULL);
+	stash->save = NULL;
+	stash->fd = fd;
+	stash->next = NULL;
+	return (stash->save);
 }
 
-char	*ft_strchr(const char *s, int c)
+char	*ret_cpy_free(char **to_ret, char **to_free)
 {
-	while (*s)
-	{
-		if (*s == (char)c)
-			return ((char *)s);
-		s++;
-	}
-	if ((char)c == '\0')
-		return ((char *)s);
-	return (NULL);
+	char	*line;
+
+	line = *to_ret;
+	*to_ret = NULL;
+	free(*to_free);
+	*to_free = NULL;
+	return (line);
 }
 
 char	*ft_strjoin(char const *s1, char const *s2)
